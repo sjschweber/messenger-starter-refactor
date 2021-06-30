@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormControl, FilledInput } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { postMessage } from "../../store/utils/thunkCreators";
+import { postMessage, markMessagesRead } from "../../store/utils/thunkCreators";
 
 const styles = {
   root: {
@@ -45,6 +45,12 @@ class Input extends Component {
       text: "",
     });
   };
+  
+  //handleFocus is currently the nominal signal of having read message
+  handleFocus = (event) => {
+    event.preventDefault();
+    this.props.markMessagesRead(this.props.user, this.props.conversationId);
+  }
 
   render() {
     const { classes } = this.props;
@@ -58,6 +64,7 @@ class Input extends Component {
             value={this.state.text}
             name="text"
             onChange={this.handleChange}
+            onFocus={this.handleFocus}
           />
         </FormControl>
       </form>
@@ -77,6 +84,9 @@ const mapDispatchToProps = (dispatch) => {
     postMessage: (message) => {
       dispatch(postMessage(message));
     },
+    markMessagesRead: (user, convoId) => {
+      dispatch(markMessagesRead(user, convoId));
+    }
   };
 };
 

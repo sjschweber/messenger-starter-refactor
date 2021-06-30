@@ -32,16 +32,22 @@ async function seed() {
     conversationId: santaigoConvo.id,
     senderId: santiago.id,
     text: "Where are you from?",
+    isRead: false,
+    isMostRecentRead: false,
   });
   await Message.create({
     conversationId: santaigoConvo.id,
     senderId: thomas.id,
     text: "I'm from New York",
+    isRead: false,
+    isMostRecentRead: false,
   });
   await Message.create({
     conversationId: santaigoConvo.id,
     senderId: santiago.id,
     text: "Share photo of your city, please",
+    isRead: false,
+    isMostRecentRead: false,
   });
 
   const chiumbo = await User.create({
@@ -59,6 +65,8 @@ async function seed() {
     conversationId: chiumboConvo.id,
     senderId: chiumbo.id,
     text: "Sure! What time?",
+    isRead: false,
+    isMostRecentRead: false,
   });
 
   const hualing = await User.create({
@@ -78,6 +86,8 @@ async function seed() {
       conversationId: hualingConvo.id,
       senderId: hualing.id,
       text: "a test message",
+      isRead: false,
+      isMostRecentRead: false,
     });
   }
 
@@ -85,6 +95,8 @@ async function seed() {
     conversationId: hualingConvo.id,
     senderId: hualing.id,
     text: "😂 😂 😂",
+    isRead: false,
+    isMostRecentRead: false,
   });
 
   const otherUsers = await Promise.all([

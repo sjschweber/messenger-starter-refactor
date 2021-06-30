@@ -8,6 +8,7 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessageText = message.text;
+
     return [newConvo, ...state];
   }
 
@@ -81,3 +82,39 @@ export const addNewConvoToStore = (state, recipientId, message) => {
     }
   });
 };
+
+export const markReadInStore = (state, reader, convoId) => {
+  // Find current conversation
+  // Use max to find most recent read message and set it to true
+  return state.map( convo => {
+    if(convo.id === convoId){
+      const newConvo = { ...convo };
+      let max = {
+        id: 0,
+        index: 0,
+      };
+
+      newConvo.messages = newConvo.messages.map((message, index) => {
+        if(message.senderId !== reader.id) {
+          const newMessage = { ...message }
+          newMessage.isRead = true;
+
+          if(newMessage.id > max.id){
+            max.id = newMessage.id;
+            max.index = index;
+          }
+          newMessage.isMostRecentRead = false;
+          return newMessage;
+        } else {
+          return message;
+        }
+      });
+
+      newConvo.messages[max.index].isMostRecentRead = true;
+
+      return newConvo;
+    } else {
+      return convo;
+    }
+  })
+}

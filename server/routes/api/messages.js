@@ -12,24 +12,10 @@ router.post("/", async (req, res, next) => {
     }
     const senderId = req.user.id;
     const { recipientId, text, conversationId, sender } = req.body;
-    const token = req.headers[`x-access-token`];
-
-    // decode jwt to ensure unforgeable user id
-    const authenticSender = new Promise((resolve, reject) => {
-      jwt.verify(token, process.env.SESSION_SECRET, {complete: true}, (err, decoded) => {
-        if(err){
-          reject(err);
-        }else{
-          resolve(decoded.payload.id);
-        }
-      });
-    });
-
-    const verified = await authenticSender;
 
     // if we already know conversation id, we can save time and just add it to message and return
     if (conversationId) {
-      let conversation = await Conversation.validateSender(verified, conversationId);
+      let conversation = await Conversation.validateSender(senderId, conversationId);
 
       if(!conversation){
         return res.status(403).json({ error: "Forbidden conversation" });

@@ -45,7 +45,7 @@ class Input extends Component {
       text: "",
     });
   };
-  
+
   //handleFocus is currently the nominal signal of having read message
   handleFocus = (event) => {
     event.preventDefault();

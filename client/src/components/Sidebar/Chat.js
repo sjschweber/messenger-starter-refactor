@@ -27,6 +27,8 @@ class Chat extends Component {
   render() {
     const { classes } = this.props;
     const otherUser = this.props.conversation.otherUser;
+    const user = this.props.user;
+
     return (
       <Box
         onClick={() => this.handleClick(this.props.conversation)}
@@ -38,7 +40,7 @@ class Chat extends Component {
           online={otherUser.online}
           sidebar={true}
         />
-        <ChatContent conversation={this.props.conversation} />
+        <ChatContent conversation={this.props.conversation} user={user}/>
       </Box>
     );
   }
@@ -48,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setActiveChat: (id) => {
       dispatch(setActiveChat(id));
-    },
+    }
   };
 };
 

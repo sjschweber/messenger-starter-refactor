@@ -13,10 +13,12 @@ const Message = db.define("message", {
   isRead: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
+    defaultValue: false,
   },
   isMostRecentRead: {
     type: Sequelize.BOOLEAN,
     alloWNull: false,
+    defaultValue: false,
   }
 });
 

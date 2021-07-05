@@ -153,7 +153,7 @@ const Login = (props) => {
               </g>
             </svg>
             <Typography className={classes.textOverlay}>
-              Converse&nbsp;with&nbsp;anyone with&nbsp;any&nbsp;language
+              {"Converse with anyone with any language"}
             </Typography>
           </Box>
         </Card>
@@ -161,7 +161,7 @@ const Login = (props) => {
       <Grid item xs={7} className={classes.form}>
         <Box className={classes.createAccount}>
           <Typography color="secondary" className={classes.secondaryText}>
-            Don't&nbsp;have&nbsp;an&nbsp;account?
+            {"Don't have an account?"}
           </Typography>
           <Button
             className={classes.shadowedButton}
@@ -169,7 +169,7 @@ const Login = (props) => {
             color="primary"
             onClick={() => history.push("/register")}
           >
-            Create&nbsp;Account
+            {"Create Account"}
           </Button>
         </Box>
         <Box className={classes.formInput}>

@@ -137,3 +137,19 @@ export const sortMessagesForStore = (conversations) => {
     return newConvo;
   });
 };
+
+export const sortMessagesForStore = (conversations) => {
+  return conversations.map(conversation => {
+    const newConvo = { ...conversation };
+    newConvo.messages = newConvo.messages.sort((a, b) => {
+      if(a.createdAt < b.createdAt){
+        return -1;
+      }else if(a.createdAt > b.createdAt){
+        return 1;
+      }else{
+        return 0;
+      }
+    });
+    return newConvo;
+  });
+};

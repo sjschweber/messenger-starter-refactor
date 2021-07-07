@@ -62,6 +62,10 @@ io.use((socket, next) => {
     }
   });
 
+  socket.on("mark-read", (data) => {
+    socket.broadcast.emit("mark-read", data);
+  });
+
   socket.on("logout", (id) => {
     if (onlineUsers.has(id)) {
       onlineUsers.delete(id)

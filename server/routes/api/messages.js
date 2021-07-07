@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const { Conversation, Message } = require("../../db/models");
 const onlineUsers = require("../../onlineUsers");
+const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
+
 // expects {recipientId, text, conversationId } in body (conversationId will be null if no conversation exists yet)
 router.post("/", async (req, res, next) => {
 
@@ -51,5 +53,54 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
-
+// expects { conversationId, messageId } in body
+router.put("/read", async(req, res, next) => {
+  try{
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+    const readerId = req.user.id;
+    const { conversationId, messageId } = req.body;
+    const message = await Message.update({ isRead: true }, {
+      where: {
+        [Op.and]: {
+          id:{
+            [Op.lte]: messageId,
+          },
+          senderId: {
+            [Op.ne]: readerId,
+          },
+          conversationId: {
+            [Op.eq]: conversationId,
+          }
+        }
+      }
+    })
+    const lastRead = await Message.update({ isMostRecentRead: true }, {
+      where: {
+        id: {
+          [Op.eq]: messageId,
+        }
+      }
+    })
+    const prevLastRead = await Message.update({ isMostRecentRead: false }, {
+      where: {
+        [Op.and]: {
+          id: {
+            [Op.ne]: messageId,
+          },
+          senderId: {
+            [Op.ne]: readerId,
+          },
+          conversationId: {
+            [Op.eq]: conversationId,
+          }
+        }
+      }
+    })
+    res.json({ messageId, conversationId, readerId });
+  } catch (error) {
+    next(error)
+  }
+})
 module.exports = router;

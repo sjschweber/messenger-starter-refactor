@@ -22,4 +22,29 @@ Conversation.findConversation = async function (user1Id, user2Id) {
   return conversation;
 };
 
+// find conversation if sender is a part of
+
+Conversation.validateSender = async function (sender, conversationId) {
+  const conversation = await Conversation.findOne({
+    where: {
+      [Op.and]: {
+        id: {
+          [Op.eq]: conversationId
+        },
+        [Op.or]: {
+          user1Id: {
+            [Op.eq]: sender
+          },
+          user2Id: {
+            [Op.eq]: sender
+          }
+        }
+      }
+    }
+  });
+
+  // return conversation or null if it doesn't exist
+  return conversation;
+};
+
 module.exports = Conversation;
